@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li class="active"><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="courses-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-book"></i> Mes Formations</h2>
+                        <div class="filter-options">
+                            <select class="form-select">
+                                <option>Toutes les formations</option>
+                                <option>En cours</option>
+                                <option>Terminées</option>
+                                <option>Non commencées</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="courses-tabs">
+                        <button class="tab-btn active">Toutes (8)</button>
+                        <button class="tab-btn">En cours (3)</button>
+                        <button class="tab-btn">Terminées (2)</button>
+                        <button class="tab-btn">Favoris (1)</button>
+                    </div>
+                    
+                    <div class="courses-list">
+                        <div class="course-card ongoing">
+                            <div class="course-image" style="background-image: url('assets/web-dev.jpg');">
+                                <span class="status-badge">En cours</span>
+                            </div>
+                            <div class="course-info">
+                                <h3>Développement Web Avancé</h3>
+                                <p class="instructor">Par Jean Koffi • 12 modules</p>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 65%;"></div>
+                                    </div>
+                                    <span>65% complété</span>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn primary">Continuer</button>
+                                    <button class="btn secondary"><i class="far fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="course-card recommended">
+                            <div class="course-image" style="background-image: url('assets/data-science.jpg');">
+                                <span class="status-badge recommended-badge">
+                                    <i class="fas fa-bullseye"></i> Recommandé
+                                </span>
+                                <div class="match-percentage">92%</div>
+                            </div>
+                            <div class="course-info">
+                                <h3>Introduction à la Science des Données</h3>
+                                <p class="instructor">Par Dr. Koffi A. • 10 modules</p>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 0%;"></div>
+                                    </div>
+                                    <span>Nouveau pour vous</span>
+                                </div>
+                                <div class="recommendation-reason">
+                                    <i class="fas fa-lightbulb" style="color: #f59e0b;"></i>
+                                    <span>Basé sur vos tests d'orientation et compétences</span>
+                                </div>
+                                <div class="course-actions">
+                                    <button class="btn primary">
+                                        <i class="fas fa-play"></i> Commencer
+                                    </button>
+                                    <button class="btn secondary">
+                                        <i class="far fa-bookmark"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+</html>

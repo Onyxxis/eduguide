@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    .events-feed {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.events-feed h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-card {
+    display: flex;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 15px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.event-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    background: #4a6fab;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 0;
+    margin-right: 15px;
+}
+
+.event-day {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.event-month {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.event-details {
+    flex: 1;
+}
+
+.event-title {
+    color: #2c3e50;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.event-time, .event-location {
+    color: #64748b;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.event-description {
+    color: #475569;
+    font-size: 0.9rem;
+    margin: 10px 0;
+}
+
+.event-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.tag {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.career-tag { background: #e0f2fe; color: #0369a1; }
+.workshop-tag { background: #ecfccb; color: #65a30d; }
+.tech-tag { background: #ede9fe; color: #7c3aed; }
+.networking-tag { background: #fce7f3; color: #db2777; }
+
+.event-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+    margin-left: 15px;
+}
+
+.btn-sm {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.featured-event {
+    border: 2px solid #4a6fab;
+    background: #f8fafc;
+}
+
+.featured-badge {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    background: #4a6fab;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.event-speaker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.speaker-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.events-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.text-btn {
+    background: none;
+    border: none;
+    color: #4a6fab;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .event-card {
+        flex-direction: column;
+    }
+    
+    .event-date {
+        margin-right: 0;
+        margin-bottom: 15px;
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px;
+        padding: 8px 15px;
+    }
+    
+    .event-day, .event-month {
+        font-size: 1rem;
+    }
+    
+    .event-actions {
+        flex-direction: row;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
+    .events-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Couleurs de base */
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --success-color: #4cc9f0;
+    --text-color: #2b2d42;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Structure générale */
+.community-section {
+    padding: 2rem;
+    background-color: var(--light-bg);
+    border-radius: 16px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.section-title .icon-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.5em;
+}
+
+.title-badge {
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+}
+
+/* Cartes de statistiques */
+.community-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(67, 97, 238, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 1.8em;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.stat-label {
+    color: #6c757d;
+    margin: 4px 0;
+    font-size: 0.9em;
+}
+
+.stat-progress {
+    font-size: 0.8em;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-progress.positive {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.stat-progress.neutral {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+/* Contenu principal */
+.community-feeds {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.discussion-feed, .events-feed {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.feed-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Cartes de discussion */
+.discussion-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.discussion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.online-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background: #28a745;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.discussion-content {
+    flex: 1;
+}
+
+.meta {
+    color: #6c757d;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 6px 0;
+}
+
+.excerpt {
+    color: var(--text-color);
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.tag {
+    font-size: 0.75em;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #f1f1f1;
+    color: #495057;
+}
+
+.tag-entretien { background: #fff0f6; color: #c2255c; }
+.tag-stage { background: #e6fcf5; color: #099268; }
+.tag-tech { background: #edf2ff; color: #364fc7; }
+.tag-bourse { background: #fff9db; color: #e67700; }
+.tag-international { background: #f3f0ff; color: #5f3dc4; }
+
+/* Cartes d'événements */
+.event-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #eee;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.featured-event {
+    border: 1px solid var(--primary-color);
+    background: rgba(67, 97, 238, 0.03);
+}
+
+.featured-badge {
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.7em;
+    padding: 2px 10px;
+    border-radius: 12px;
+}
+
+.event-date {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #eee;
+    flex-shrink: 0;
+}
+
+.event-day {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.event-month {
+    font-size: 0.8em;
+    color: #6c757d;
+    text-transform: uppercase;
+    margin-top: -4px;
+}
+
+.event-details {
+    flex: 1;
+}
+
+.event-title {
+    margin: 0 0 8px 0;
+    font-size: 1.1em;
+}
+
+.event-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: #6c757d;
+    font-size: 0.85em;
+    margin-bottom: 8px;
+}
+
+.event-description {
+    font-size: 0.9em;
+    color: #495057;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.event-speaker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.speaker-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+}
+
+.event-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Boutons */
+.btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9em;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(67, 97, 238, 0.05);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: rgba(67, 97, 238, 0.05);
+}
+
+.btn-text {
+    background: transparent;
+    color: var(--primary-color);
+    padding: 0;
+}
+
+.btn-text:hover {
+    text-decoration: underline;
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    background: #f1f1f1;
+    color: var(--text-color);
+}
+
+.btn-icon.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+}
+
+/* Pied de section */
+.events-footer, .feed-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+/* Animations */
+.hover-grow:hover {
+    transform: scale(1.03);
+}
+
+.hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .community-feeds {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .community-stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li class="active"><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="community-section">
+                    <!-- Header avec animation au survol -->
+                    <h2 class="section-title">
+                        <i class="fas fa-users icon-gradient"></i> 
+                        <span class="title-text">Communauté EduGuide</span>
+                        <span class="title-badge">Nouveau</span>
+                    </h2>
+                    
+                    <!-- Statistiques avec effets au survol -->
+                    <div class="community-stats">
+                        <div class="stat-card hover-grow">
+                            <div class="stat-icon">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">1,245</h3>
+                                <p class="stat-label">Membres actifs</p>
+                                <div class="stat-progress positive">
+                                    <i class="fas fa-arrow-up"></i> 12% ce mois
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card hover-grow">
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">328</h3>
+                                <p class="stat-label">Discussions</p>
+                                <div class="stat-progress positive">
+                                    <i class="fas fa-arrow-up"></i> 8% ce mois
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card hover-grow">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number">12</h3>
+                                <p class="stat-label">Événements</p>
+                                <div class="stat-progress neutral">
+                                    <i class="fas fa-equals"></i> 3 nouveaux
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenu principal avec deux colonnes -->
+                    <div class="community-feeds">
+                        <!-- Colonne Discussions -->
+                        <div class="discussion-feed">
+                            <div class="feed-header">
+                                <h3>Dernières discussions</h3>
+                                <button class="btn btn-text">
+                                    <i class="fas fa-plus-circle"></i> Nouvelle discussion
+                                </button>
+                            </div>
+                            
+                            <div class="discussion-card hover-lift">
+                                <div class="user-avatar pulse-animation">
+                                    <img src="assets/user2.jpg" alt="Yawa Johnson">
+                                    <span class="online-status"></span>
+                                </div>
+                                <div class="discussion-content">
+                                    <div class="discussion-header">
+                                        <h4>Conseils pour entretien chez Google</h4>
+                                        <button class="btn-icon">
+                                            <i class="far fa-bookmark"></i>
+                                        </button>
+                                    </div>
+                                    <p class="meta">
+                                        <span class="author">Yawa Johnson</span>
+                                        <span class="divider">•</span>
+                                        <span class="time">Il y a 2 heures</span>
+                                        <span class="divider">•</span>
+                                        <span class="comments">
+                                            <i class="fas fa-comment-alt"></i> 15
+                                        </span>
+                                    </p>
+                                    <p class="excerpt">Je passe un entretien pour un stage chez Google la semaine prochaine. Des conseils sur les questions techniques à préparer?</p>
+                                    <div class="tags">
+                                        <span class="tag tag-entretien">Entretien</span>
+                                        <span class="tag tag-stage">Stages</span>
+                                        <span class="tag tag-tech">Tech</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="discussion-card hover-lift">
+                                <div class="user-avatar">
+                                    <img src="assets/user1.jpg" alt="Kofi Mensah">
+                                </div>
+                                <div class="discussion-content">
+                                    <div class="discussion-header">
+                                        <h4>Bourses d'étude en France - Expériences?</h4>
+                                        <button class="btn-icon">
+                                            <i class="far fa-bookmark"></i>
+                                        </button>
+                                    </div>
+                                    <p class="meta">
+                                        <span class="author">Kofi Mensah</span>
+                                        <span class="divider">•</span>
+                                        <span class="time">Hier</span>
+                                        <span class="divider">•</span>
+                                        <span class="comments">
+                                            <i class="fas fa-comment-alt"></i> 8
+                                        </span>
+                                    </p>
+                                    <p class="excerpt">Je cherche des témoignages sur les bourses Eiffel et autres programmes pour étudier en France...</p>
+                                    <div class="tags">
+                                        <span class="tag tag-bourse">Bourses</span>
+                                        <span class="tag tag-international">International</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="feed-footer">
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-stream"></i> Voir toutes les discussions
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Colonne Événements -->
+                        <div class="events-feed">
+                            <div class="feed-header">
+                                <h3><i class="fas fa-calendar-alt icon-gradient"></i> Événements à venir</h3>
+                                <div class="view-options">
+                                    <button class="btn-icon active">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                    <button class="btn-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="event-list">
+                                <div class="event-card hover-lift">
+                                    <div class="event-date">
+                                        <span class="event-day">15</span>
+                                        <span class="event-month">JUIN</span>
+                                    </div>
+                                    <div class="event-details">
+                                        <h4 class="event-title">Atelier: Création de CV efficace</h4>
+                                        <div class="event-meta">
+                                            <span class="event-time">
+                                                <i class="far fa-clock"></i> 10:00 - 12:30 (GMT+0)
+                                            </span>
+                                            <span class="event-location">
+                                                <i class="fas fa-map-marker-alt"></i> En ligne / Université de Lomé
+                                            </span>
+                                        </div>
+                                        <div class="event-tags">
+                                            <span class="tag tag-career">Carrière</span>
+                                            <span class="tag tag-workshop">Atelier</span>
+                                        </div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="btn btn-primary btn-sm btn-icon">
+                                            <i class="fas fa-calendar-plus"></i> S'inscrire
+                                        </button>
+                                    </div>
+                                </div>
+                        
+                                <div class="event-card hover-lift featured-event">
+                                    <div class="featured-badge">Recommandé</div>
+                                    <div class="event-date">
+                                        <span class="event-day">18</span>
+                                        <span class="event-month">JUIN</span>
+                                    </div>
+                                    <div class="event-details">
+                                        <h4 class="event-title">Rencontre avec des recruteurs Tech</h4>
+                                        <div class="event-meta">
+                                            <span class="event-time">
+                                                <i class="far fa-clock"></i> 14:00 - 17:00 (GMT+0)
+                                            </span>
+                                            <span class="event-location">
+                                                <i class="fas fa-map-marker-alt"></i> Hub Innovation, Lomé
+                                            </span>
+                                        </div>
+                                        <p class="event-description">
+                                            Rencontrez les recruteurs des grandes entreprises technologiques du Togo
+                                        </p>
+                                        <div class="event-tags">
+                                            <span class="tag tag-tech">Technologie</span>
+                                            <span class="tag tag-networking">Networking</span>
+                                        </div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="btn btn-primary btn-sm btn-icon">
+                                            <i class="fas fa-calendar-plus"></i> S'inscrire
+                                        </button>
+                                        <button class="btn btn-secondary btn-sm btn-icon">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                        
+                                <div class="event-card hover-lift">
+                                    <div class="event-date">
+                                        <span class="event-day">22</span>
+                                        <span class="event-month">JUIN</span>
+                                    </div>
+                                    <div class="event-details">
+                                        <h4 class="event-title">Webinaire: Orientation après le BAC</h4>
+                                        <div class="event-meta">
+                                            <span class="event-time">
+                                                <i class="far fa-clock"></i> 15:00 - 16:30 (GMT+0)
+                                            </span>
+                                            <span class="event-location">
+                                                <i class="fas fa-video"></i> Session en ligne
+                                            </span>
+                                        </div>
+                                        <div class="event-speaker">
+                                            <img src="assets/user1.jpg" alt="Dr. Adjoa Johnson" class="speaker-avatar">
+                                            <span>Dr. Adjoa Johnson, Conseillère d'orientation</span>
+                                        </div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button class="btn btn-primary btn-sm btn-icon">
+                                            <i class="fas fa-calendar-plus"></i> S'inscrire
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="events-footer">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-calendar-week"></i> Voir tout le calendrier
+                                </button>
+                                <button class="btn btn-text">
+                                    <i class="fas fa-history"></i> Événements passés
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+
+</body>
+</html>

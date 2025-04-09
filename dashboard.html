@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li class="active"><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+
+        
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="welcome-section">
+                    <h2>Bonjour, <span id="user-greeting">Ariel</span> !</h2>
+                    <p>Voici votre tableau de bord personnel. Commencez votre parcours d'orientation et de formation.</p>
+                </section>
+                
+                <div class="dashboard-grid">
+                    <!-- Progress Section -->
+                    <section class="dashboard-card progress-section">
+                        <h3><i class="fas fa-chart-line"></i> Votre progression</h3>
+                        <div class="progress-container">
+                            <div class="progress-item">
+                                <div class="progress-circle" data-percent="65">
+                                    <svg>
+                                        <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="progress-fill" cx="50" cy="50" r="40"></circle>
+                                    </svg>
+                                    <div class="progress-text">65%</div>
+                                </div>
+                                <p>Profil complété</p>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-circle" data-percent="30">
+                                    <svg>
+                                        <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="progress-fill" cx="50" cy="50" r="40"></circle>
+                                    </svg>
+                                    <div class="progress-text">30%</div>
+                                </div>
+                                <p>Tests réalisés</p>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-circle" data-percent="15">
+                                    <svg>
+                                        <circle class="progress-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="progress-fill" cx="50" cy="50" r="40"></circle>
+                                    </svg>
+                                    <div class="progress-text">15%</div>
+                                </div>
+                                <p>Formations terminées</p>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Orientation Test -->
+                    <section class="dashboard-card orientation-test">
+                        <h3><i class="fas fa-question-circle"></i> Test d'orientation</h3>
+                        <p>Complétez notre test d'orientation pour découvrir les filières qui correspondent à votre profil.</p>
+                        <div class="test-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 30%;"></div>
+                            </div>
+                            <span>30% complété</span>
+                        </div>
+                        <button class="btn primary">Continuer le test</button>
+                    </section>
+                    
+                    <!-- Recommended Courses -->
+                    <section class="dashboard-card recommended-courses">
+                        <div class="card-header">
+                            <h3><i class="fas fa-book"></i> Formations recommandées</h3>
+                            <a href="#" class="see-all">Voir tout</a>
+                        </div>
+                        <div class="courses-grid">
+                            <div class="course-card">
+                                <div class="course-image" style="background-image: url('assets/course1.jpg');"></div>
+                                <div class="course-info">
+                                    <h4>Développement Web</h4>
+                                    <p>Apprenez à créer des sites web modernes avec HTML, CSS et JavaScript.</p>
+                                    <div class="course-meta">
+                                        <span><i class="fas fa-play-circle"></i> 12 modules</span>
+                                        <span><i class="fas fa-clock"></i> 30h</span>
+                                    </div>
+                                    <button class="btn small">Commencer</button>
+                                </div>
+                            </div>
+                            <div class="course-card">
+                                <div class="course-image" style="background-image: url('assets/course2.jpg');"></div>
+                                <div class="course-info">
+                                    <h4>Marketing Digital</h4>
+                                    <p>Maîtrisez les fondamentaux du marketing en ligne et des réseaux sociaux.</p>
+                                    <div class="course-meta">
+                                        <span><i class="fas fa-play-circle"></i> 8 modules</span>
+                                        <span><i class="fas fa-clock"></i> 20h</span>
+                                    </div>
+                                    <button class="btn small">Commencer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Upcoming Events -->
+                    <section class="dashboard-card upcoming-events">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Événements à venir</h3>
+                            <a href="#" class="see-all">Voir tout</a>
+                        </div>
+                        <div class="events-list">
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">15</span>
+                                    <span class="month">Juin</span>
+                                </div>
+                                <div class="event-info">
+                                    <h4>Webinaire: Orientation professionnelle</h4>
+                                    <p><i class="fas fa-clock"></i> 10:00 - 12:00</p>
+                                    <button class="btn small">S'inscrire</button>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="day">20</span>
+                                    <span class="month">Juin</span>
+                                </div>
+                                <div class="event-info">
+                                    <h4>Atelier: Création de CV</h4>
+                                    <p><i class="fas fa-clock"></i> 14:00 - 16:00</p>
+                                    <button class="btn small">S'inscrire</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Mentor Section -->
+                    <section class="dashboard-card mentor-section">
+                        <h3><i class="fas fa-user-tie"></i> Votre mentor</h3>
+                        <div class="mentor-card">
+                            <img src="assets/mentor2.jpg" alt="Mentor">
+                            <div class="mentor-info">
+                                <h4>Jean Koffi</h4>
+                                <p class="mentor-title">Développeur Senior</p>
+                                <p class="mentor-company">Tech Solutions Togo</p>
+                                <div class="mentor-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <button class="btn small"><i class="fas fa-calendar"></i> Prendre RDV</button>
+                                <button class="btn small secondary"><i class="fas fa-comment"></i> Message</button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Job Opportunities -->
+                    <section class="dashboard-card job-opportunities">
+                        <div class="card-header">
+                            <h3><i class="fas fa-briefcase"></i> Opportunités</h3>
+                            <a href="#" class="see-all">Voir tout</a>
+                        </div>
+                        <div class="jobs-list">
+                            <div class="job-item">
+                                <div class="job-logo">
+                                    <img src="assets/company1.png" alt="Entreprise">
+                                </div>
+                                <div class="job-info">
+                                    <h4>Développeur Frontend</h4>
+                                    <p class="company">Digital Solutions Togo</p>
+                                    <p class="location"><i class="fas fa-map-marker-alt"></i> Lomé</p>
+                                    <div class="job-type">Stage</div>
+                                </div>
+                            </div>
+                            <div class="job-item">
+                                <div class="job-logo">
+                                    <img src="assets/company2.png" alt="Entreprise">
+                                </div>
+                                <div class="job-info">
+                                    <h4>Assistant Marketing</h4>
+                                    <p class="company">AfriMarket</p>
+                                    <p class="location"><i class="fas fa-map-marker-alt"></i> Kara</p>
+                                    <div class="job-type">Temps partiel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* Variables de couleur */
+:root {
+    --primary-color: #4361ee;
+    --primary-light: #eef2ff;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --success-color: #4cc9f0;
+    --text-color: #2b2d42;
+    --text-light: #6c757d;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --card-hover-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Structure générale */
+.portfolio-section {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--text-color);
+    position: relative;
+}
+
+.section-title .icon-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.2em;
+}
+
+.badge-new {
+    background: var(--accent-color);
+    color: white;
+    font-size: 0.6em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    transform: rotate(5deg);
+}
+
+.section-subtitle {
+    color: var(--text-light);
+    margin: 8px 0 0 0;
+    font-size: 0.95rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Barre d'outils */
+.portfolio-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.view-options {
+    display: flex;
+    gap: 8px;
+}
+
+.export-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Filtres */
+.portfolio-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--light-bg);
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 300px;
+}
+
+.search-box i {
+    color: var(--text-light);
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    flex: 1;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.filter-tags {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-tag {
+    background: var(--light-bg);
+    border: none;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.btn-tag:hover {
+    background: #e9ecef;
+}
+
+/* Grille de projets */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 2rem;
+}
+
+.project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.project-thumbnail {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.project-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.project-badge.featured {
+    background: #ffd700;
+    color: #8a6d00;
+}
+
+.project-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-actions {
+    opacity: 1;
+}
+
+.project-info {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.project-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    flex: 1;
+}
+
+.project-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 12px;
+}
+
+.project-meta i {
+    margin-right: 4px;
+}
+
+.project-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.skill-tag {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.btn-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Carte CV spéciale */
+.cv-template {
+    border: 2px solid var(--primary-color);
+}
+
+.cv-template .project-thumbnail {
+    position: relative;
+}
+
+.cv-template .project-badge {
+    background: var(--primary-color);
+    color: white;
+}
+
+.progress-container {
+    margin: 12px 0;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+/* Carte "Ajouter un projet" */
+.project-card.add-new {
+    background: var(--light-bg);
+    border: 2px dashed #ced4da;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.project-card.add-new:hover {
+    border-color: var(--primary-color);
+    background: rgba(67, 97, 238, 0.05);
+}
+
+.add-new-content {
+    text-align: center;
+    padding: 2rem 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-new-content i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.add-new-content h3 {
+    margin: 0 0 8px 0;
+    color: var(--text-color);
+}
+
+.add-new-content p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0 0 16px 0;
+}
+
+.add-new-options {
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #dee2e6;
+}
+
+.btn-option {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-option:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+.btn-option i {
+    font-size: 1.2rem;
+}
+
+/* Pied de page */
+.portfolio-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.footer-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.stat-item i {
+    color: var(--primary-color);
+}
+
+.footer-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Boutons */
+.btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(67, 97, 238, 0.05);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background: rgba(67, 97, 238, 0.05);
+}
+
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    background: #f1f1f1;
+    color: var(--text-color);
+}
+
+.btn-lg {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle::after {
+    content: "▾";
+    margin-left: 6px;
+    font-size: 0.8em;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    padding: 8px 0;
+    min-width: 200px;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.2s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+.dropdown-item i {
+    width: 20px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #eee;
+    margin: 8px 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .portfolio-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .portfolio-filters {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .footer-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+</style>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li class="active"><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="portfolio-section">
+                    <!-- En-tête avec navigation -->
+                    <div class="portfolio-header">
+                        <div class="header-content">
+                            <h2 class="section-title">
+                                <i class="fas fa-file-alt icon-gradient"></i> 
+                                <span>Mon Portfolio Professionnel</span>
+                                <span class="badge-new">Nouveau Design</span>
+                            </h2>
+                            <p class="section-subtitle">Créez, personnalisez et exportez votre portfolio en un clic</p>
+                        </div>
+                        
+                        <div class="header-actions">
+                            <button class="btn btn-primary btn-lg btn-icon">
+                                <i class="fas fa-plus"></i> Nouveau Projet
+                            </button>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary btn-lg btn-icon dropdown-toggle">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-file-import"></i> Importer un projet
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-copy"></i> Dupliquer le portfolio
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-cog"></i> Paramètres
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Barre d'outils -->
+                    <div class="portfolio-toolbar">
+                        <div class="view-options">
+                            <button class="btn btn-icon active" title="Vue Grille">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Vue Liste">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Vue Présentation">
+                                <i class="fas fa-columns"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="export-actions">
+                            <button class="btn btn-outline-primary btn-icon">
+                                <i class="fas fa-eye"></i> Prévisualiser
+                            </button>
+                            <div class="dropdown">
+                                <button class="btn btn-primary btn-icon dropdown-toggle">
+                                    <i class="fas fa-file-export"></i> Exporter
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-file-pdf"></i> Format PDF
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-file-image"></i> Format Image
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        <i class="fas fa-file-code"></i> Format HTML
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtres et recherche -->
+                    <div class="portfolio-filters">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Rechercher un projet...">
+                            <button class="btn btn-icon">
+                                <i class="fas fa-sliders-h"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="filter-tags">
+                            <div class="dropdown">
+                                <button class="btn btn-tag dropdown-toggle">
+                                    <i class="fas fa-tag"></i> Tous les types
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item active">Tous les projets</a>
+                                    <a href="#" class="dropdown-item">Sites Web</a>
+                                    <a href="#" class="dropdown-item">Applications</a>
+                                    <a href="#" class="dropdown-item">Designs</a>
+                                    <a href="#" class="dropdown-item">Autres</a>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown">
+                                <button class="btn btn-tag dropdown-toggle">
+                                    <i class="fas fa-sort-amount-down"></i> Plus récents
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item active">Plus récents</a>
+                                    <a href="#" class="dropdown-item">Plus anciens</a>
+                                    <a href="#" class="dropdown-item">A-Z</a>
+                                    <a href="#" class="dropdown-item">Z-A</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Grille de projets -->
+                    <div class="portfolio-grid">
+                        <!-- Projet 1 -->
+                        <div class="project-card">
+                            <div class="project-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                                <div class="project-badge featured">
+                                    <i class="fas fa-star"></i> Vedette
+                                </div>
+                                <div class="project-actions">
+                                    <button class="btn btn-icon" title="Éditer">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button class="btn btn-icon" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-icon" title="Paramètres">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Site e-commerce "AfriMarket"</h3>
+                                <p class="project-description">
+                                    Plateforme de vente en ligne pour produits africains artisanaux avec paiement mobile intégré.
+                                </p>
+                                <div class="project-meta">
+                                    <span class="date">
+                                        <i class="far fa-calendar-alt"></i> 15 Mars 2023
+                                    </span>
+                                    <span class="views">
+                                        <i class="far fa-eye"></i> 1.2K
+                                    </span>
+                                </div>
+                                <div class="project-skills">
+                                    <span class="skill-tag">HTML/CSS</span>
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Node.js</span>
+                                </div>
+                                <div class="project-footer">
+                                    <a href="#" class="btn btn-link">
+                                        <i class="fas fa-external-link-alt"></i> Voir en ligne
+                                    </a>
+                                    <button class="btn btn-icon btn-favorite" title="Ajouter aux favoris">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Projet 2 (CV) -->
+                        <div class="project-card cv-template">
+                            <div class="project-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                                <div class="project-badge">
+                                    <i class="fas fa-file-user"></i> CV
+                                </div>
+                                <div class="project-actions">
+                                    <button class="btn btn-icon" title="Éditer">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button class="btn btn-icon" title="Télécharger PDF">
+                                        <i class="fas fa-file-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Mon CV Professionnel</h3>
+                                <p class="project-description">
+                                    CV moderne avec compétences, expériences et portfolio intégré. Personnalisable en 1 clic.
+                                </p>
+                                <div class="project-meta">
+                                    <span class="date">
+                                        <i class="far fa-calendar-alt"></i> Mise à jour: 2 jours
+                                    </span>
+                                    <span class="downloads">
+                                        <i class="fas fa-download"></i> 24
+                                    </span>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-info">
+                                        <span>Complétion:</span>
+                                        <span>85%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 85%;"></div>
+                                    </div>
+                                </div>
+                                <div class="project-footer">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-magic"></i> Personnaliser
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-file-pdf"></i> Exporter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Projet 3 -->
+                        <div class="project-card">
+                            <div class="project-thumbnail" style="background-image: url('https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60');">
+                                <div class="project-actions">
+                                    <button class="btn btn-icon" title="Éditer">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button class="btn btn-icon" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Application Mobile "EduTrack"</h3>
+                                <p class="project-description">
+                                    Application de suivi scolaire pour les étudiants avec rappels de devoirs et calendrier.
+                                </p>
+                                <div class="project-meta">
+                                    <span class="date">
+                                        <i class="far fa-calendar-alt"></i> 10 Fév 2023
+                                    </span>
+                                    <span class="views">
+                                        <i class="far fa-eye"></i> 856
+                                    </span>
+                                </div>
+                                <div class="project-skills">
+                                    <span class="skill-tag">Flutter</span>
+                                    <span class="skill-tag">Dart</span>
+                                    <span class="skill-tag">Firebase</span>
+                                </div>
+                                <div class="project-footer">
+                                    <a href="#" class="btn btn-link">
+                                        <i class="fab fa-github"></i> Code source
+                                    </a>
+                                    <button class="btn btn-icon" title="Partager">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Carte "Ajouter un projet" -->
+                        <div class="project-card add-new">
+                            <div class="add-new-content">
+                                <i class="fas fa-plus-circle"></i>
+                                <h3>Ajouter un Projet</h3>
+                                <p>Commencez un nouveau projet ou importez depuis votre appareil</p>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Créer
+                                </button>
+                            </div>
+                            <div class="add-new-options">
+                                <button class="btn btn-option">
+                                    <i class="fas fa-file-alt"></i> Modèle CV
+                                </button>
+                                <button class="btn btn-option">
+                                    <i class="fas fa-laptop-code"></i> Projet Web
+                                </button>
+                                <button class="btn btn-option">
+                                    <i class="fas fa-mobile-alt"></i> Application
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pied de page -->
+                    <div class="portfolio-footer">
+                        <div class="footer-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-project-diagram"></i>
+                                <span>12 Projets</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-eye"></i>
+                                <span>3.4K Vues</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-download"></i>
+                                <span>47 Téléchargements</span>
+                            </div>
+                        </div>
+                        
+                        <div class="footer-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-globe"></i> Publier le Portfolio
+                            </button>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-file-pdf"></i> Exporter Tout en PDF
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+</html>

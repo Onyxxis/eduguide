@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* Conteneur principal */
+.assessment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Grille des catégories de tests */
+.test-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Carte de catégorie */
+.category-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    padding: 25px;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-header h3 {
+    margin: 15px 0 0;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.card-body {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.card-body p {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.progress-container {
+    margin-top: 20px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.card-footer {
+    padding: 0 20px 20px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.continue-btn {
+    background: #4a6fab;
+    color: white;
+}
+
+.start-btn {
+    background: #4fc3f7;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Section des résultats */
+.results-section {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.section-header {
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header h2 i {
+    color: #4fc3f7;
+}
+
+.section-subtitle {
+    color: #7f8c8d;
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+}
+
+.results-card {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.result-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-3px);
+}
+
+.match-card {
+    background: #f5fbff;
+}
+
+.result-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.result-content {
+    flex-grow: 1;
+}
+
+.result-content h4 {
+    margin: 0 0 10px;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.highlight-text {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.job-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.job-list li {
+    padding: 5px 0;
+    color: #444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.job-list li i {
+    color: #4fc3f7;
+    font-size: 0.8rem;
+}
+
+/* Cercle de progression */
+.match-circle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle-progress {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color) calc(var(--progress) * 3.6deg), #f0f0f0 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 10px 0;
+}
+
+.circle-progress::before {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+}
+
+.circle-progress span {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.match-feedback {
+    color: #4caf50;
+    font-weight: 500;
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .test-categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-card {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li class="active"><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="tests-section">
+                    <h2><i class="fas fa-question-circle"></i> Tests d'Orientation</h2>
+                    
+                    <div class="assessment-section">
+                        <!-- Section des catégories de tests -->
+                        <div class="test-categories-grid">
+                            <!-- Carte Aptitudes Cognitives -->
+                            <div class="category-card">
+                                <div class="card-header" style="background-color: #4a6fab;">
+                                    <div class="category-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <h3>Aptitudes Cognitives</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p>Évaluez vos capacités de raisonnement et de résolution de problèmes</p>
+                                    <div class="progress-container">
+                                        <div class="progress-info">
+                                            <span>Progression</span>
+                                            <span>40%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 40%; background-color: #4a6fab;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn continue-btn">
+                                        <i class="fas fa-arrow-right"></i> Continuer
+                                    </button>
+                                </div>
+                            </div>
+                    
+                            <!-- Carte Intérêts Professionnels -->
+                            <div class="category-card">
+                                <div class="card-header" style="background-color: #4fc3f7;">
+                                    <div class="category-icon">
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <h3>Intérêts Professionnels</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p>Découvrez les métiers qui correspondent à vos passions</p>
+                                    <div class="progress-container">
+                                        <div class="progress-info">
+                                            <span>Progression</span>
+                                            <span>15%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 15%; background-color: #4fc3f7;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn start-btn">
+                                        <i class="fas fa-play"></i> Commencer
+                                    </button>
+                                </div>
+                            </div>
+                    
+                            <!-- Carte Personnalité -->
+                            <div class="category-card">
+                                <div class="card-header" style="background-color: #2c3e50;">
+                                    <div class="category-icon">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <h3>Personnalité</h3>
+                                </div>
+                                <div class="card-body">
+                                    <p>Identifiez votre type de personnalité et ses implications professionnelles</p>
+                                    <div class="progress-container">
+                                        <div class="progress-info">
+                                            <span>Non commencé</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 0%; background-color: #2c3e50;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn start-btn">
+                                        <i class="fas fa-rocket"></i> Démarrer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Section des résultats -->
+                        <div class="results-section">
+                            <div class="section-header">
+                                <h2><i class="fas fa-chart-line"></i> Résultats Préliminaires</h2>
+                                <p class="section-subtitle">Basé sur vos tests complétés</p>
+                            </div>
+                            
+                            <div class="results-card">
+                                <div class="result-card">
+                                    <div class="result-icon" style="background-color: #e3f2fd;">
+                                        <i class="fas fa-bullseye" style="color: #2196f3;"></i>
+                                    </div>
+                                    <div class="result-content">
+                                        <h4>Domaine recommandé</h4>
+                                        <p class="highlight-text">Technologies de l'Information</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <div class="result-icon" style="background-color: #e8f5e9;">
+                                        <i class="fas fa-briefcase" style="color: #4caf50;"></i>
+                                    </div>
+                                    <div class="result-content">
+                                        <h4>Métiers correspondants</h4>
+                                        <ul class="job-list">
+                                            <li><i class="fas fa-caret-right"></i> Développeur Web</li>
+                                            <li><i class="fas fa-caret-right"></i> Analyste de données</li>
+                                            <li><i class="fas fa-caret-right"></i> Chef de projet IT</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="result-card match-card">
+                                    <div class="result-icon" style="background-color: #fff8e1;">
+                                        <i class="fas fa-percentage" style="color: #ffa000;"></i>
+                                    </div>
+                                    <div class="result-content">
+                                        <h4>Correspondance</h4>
+                                        <div class="match-circle">
+                                            <div class="circle-progress" style="--progress: 78; --color: #4fc3f7;">
+                                                <span>78%</span>
+                                            </div>
+                                            <p class="match-feedback">Excellente correspondance !</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+</html>

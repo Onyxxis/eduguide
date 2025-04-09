@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* Styles généraux */
+.profile-section {
+    padding: 2rem;
+    background-color: #f9fafb;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-content h2 {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.header-content h2 i {
+    color: #4a6fab;
+}
+
+.profile-subtitle {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+}
+
+.edit-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 10px rgba(74, 111, 171, 0.2);
+}
+
+.edit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(74, 111, 171, 0.3);
+}
+
+/* Grille de profil */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Cartes */
+.profile-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border: 1px solid #eaeff5;
+}
+
+.animate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.card-header h3 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.decoration-line {
+    height: 3px;
+    width: 50px;
+    background: linear-gradient(to right, #4a6fab, #4fc3f7);
+    border-radius: 3px;
+}
+
+/* Informations personnelles */
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.info-icon {
+    width: 36px;
+    height: 36px;
+    background-color: #f0f7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a6fab;
+    flex-shrink: 0;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.value {
+    font-size: 0.95rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Parcours scolaire */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.education-item {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+}
+
+.education-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 32px;
+    bottom: -20px;
+    width: 2px;
+    background-color: #e0e6ed;
+}
+
+.education-badge {
+    width: 36px;
+    height: 36px;
+    background-color: #e3f2fd;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4a6fab;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.education-content h4 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 0.3rem;
+}
+
+.institution {
+    font-size: 0.85rem;
+    color: #4a6fab;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.education-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.education-meta i {
+    margin-right: 0.3rem;
+}
+
+/* Compétences */
+.skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.skill-name {
+    font-size: 0.9rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.skill-percent {
+    font-size: 0.8rem;
+    color: #4a6fab;
+    font-weight: 600;
+}
+
+.skill-bar {
+    height: 8px;
+    background-color: #f0f4f8;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-level {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.web-dev {
+    background: linear-gradient(to right, #4a6fab, #64b5f6);
+}
+
+.marketing {
+    background: linear-gradient(to right, #6a1b9a, #9c27b0);
+}
+
+.management {
+    background: linear-gradient(to right, #2e7d32, #4caf50);
+}
+
+.skills-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Centres d'intérêt */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+.tag {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tag i {
+    font-size: 0.7rem;
+}
+
+.tech {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.business {
+    background-color: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.book {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.travel {
+    background-color: #e1f5fe;
+    color: #0288d1;
+}
+
+.music {
+    background-color: #fce4ec;
+    color: #c2185b;
+}
+
+.sport {
+    background-color: #fff8e1;
+    color: #ff8f00;
+}
+
+.interests-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #e0e6ed;
+}
+
+.hint {
+    font-size: 0.75rem;
+    color: #7f8c8d;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li class="active"><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="profile-section">
+                    <div class="profile-header">
+                        <div class="header-content">
+                            <h2><i class="fas fa-user-circle"></i> Mon Profil</h2>
+                            <p class="profile-subtitle">Gérez vos informations personnelles et votre parcours</p>
+                        </div>
+                        <button class="btn primary edit-btn">
+                            <i class="fas fa-edit"></i> Modifier le profil
+                        </button>
+                    </div>
+                    
+                    <div class="profile-grid">
+                        <!-- Carte Informations Personnelles -->
+                        <div class="profile-card personal-info animate-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-id-card"></i> Informations Personnelles</h3>
+                                <div class="decoration-line"></div>
+                            </div>
+                            <div class="info-container">
+                                <div class="info-item">
+                                    <div class="info-icon"><i class="fas fa-user"></i></div>
+                                    <div class="info-content">
+                                        <span class="label">Nom complet</span>
+                                        <span class="value">Kodjo Mensah</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                                    <div class="info-content">
+                                        <span class="label">Email</span>
+                                        <span class="value">kodjo.mensah@eduguide.tg</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon"><i class="fas fa-phone"></i></div>
+                                    <div class="info-content">
+                                        <span class="label">Téléphone</span>
+                                        <span class="value">+228 90 12 34 56</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon"><i class="fas fa-birthday-cake"></i></div>
+                                    <div class="info-content">
+                                        <span class="label">Date de naissance</span>
+                                        <span class="value">15/03/2000</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div class="info-content">
+                                        <span class="label">Ville</span>
+                                        <span class="value">Lomé</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Carte Parcours Scolaire -->
+                        <div class="profile-card education-info animate-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-graduation-cap"></i> Parcours Scolaire</h3>
+                                <div class="decoration-line"></div>
+                            </div>
+                            <div class="timeline">
+                                <div class="education-item">
+                                    <div class="education-badge"><i class="fas fa-university"></i></div>
+                                    <div class="education-content">
+                                        <h4>Licence en Informatique</h4>
+                                        <p class="institution">Université de Lomé</p>
+                                        <div class="education-meta">
+                                            <span class="year"><i class="far fa-calendar-alt"></i> 2020-2023</span>
+                                            <span class="gpa"><i class="fas fa-star"></i> Mention: Bien</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="education-item">
+                                    <div class="education-badge"><i class="fas fa-school"></i></div>
+                                    <div class="education-content">
+                                        <h4>Baccalauréat Scientifique</h4>
+                                        <p class="institution">Lycée Tokoin</p>
+                                        <div class="education-meta">
+                                            <span class="year"><i class="far fa-calendar-alt"></i> 2019</span>
+                                            <span class="gpa"><i class="fas fa-star"></i> Mention: Assez Bien</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Carte Compétences -->
+                        <div class="profile-card skills-info animate-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-code"></i> Compétences</h3>
+                                <div class="decoration-line"></div>
+                            </div>
+                            <div class="skills-list">
+                                <div class="skill-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Développement Web</span>
+                                        <span class="skill-percent">75%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-level web-dev" style="width: 75%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Marketing Digital</span>
+                                        <span class="skill-percent">60%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-level marketing" style="width: 60%;"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Gestion de projet</span>
+                                        <span class="skill-percent">50%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <div class="skill-level management" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skills-footer">
+                                <button class="btn small secondary"><i class="fas fa-plus"></i> Ajouter une compétence</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Carte Centres d'intérêt -->
+                        <div class="profile-card interests-info animate-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-heart"></i> Centres d'intérêt</h3>
+                                <div class="decoration-line"></div>
+                            </div>
+                            <div class="tags-container">
+                                <span class="tag tech"><i class="fas fa-microchip"></i> Technologie</span>
+                                <span class="tag business"><i class="fas fa-briefcase"></i> Entrepreneuriat</span>
+                                <span class="tag book"><i class="fas fa-book-open"></i> Lecture</span>
+                                <span class="tag travel"><i class="fas fa-plane"></i> Voyages</span>
+                                <span class="tag music"><i class="fas fa-music"></i> Musique</span>
+                                <span class="tag sport"><i class="fas fa-running"></i> Sport</span>
+                            </div>
+                            <div class="interests-footer">
+                                <p class="hint"><i class="fas fa-lightbulb"></i> Ces centres d'intérêt aident à personnaliser vos recommandations</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - EduGuide Togo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    /* Style général */
+    .mentorship-section {
+        padding: 2rem;
+        background-color: #f8fafc;
+    }
+    
+    /* En-tête de section */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .header-content h2 {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    
+    .header-content h2 i {
+        color: #6c63ff;
+    }
+    
+    .section-subtitle {
+        color: #64748b;
+        font-size: 0.95rem;
+        max-width: 600px;
+    }
+    
+    /* Bouton principal */
+    .mentor-cta {
+        position: relative;
+        padding: 0.8rem 1.8rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: linear-gradient(135deg, #6c63ff 0%, #4a3eff 100%);
+        border: none;
+        color: white;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(108, 99, 255, 0.2);
+    }
+    
+    .mentor-cta .hover-effect {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: 0.5s;
+    }
+    
+    .mentor-cta:hover .hover-effect {
+        left: 100%;
+    }
+    
+    .mentor-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(108, 99, 255, 0.3);
+    }
+    
+    /* Onglets */
+    .mentorship-tabs {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    
+    .tabs-container {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .tab-btn {
+        padding: 0.8rem 1.5rem;
+        border: none;
+        background: none;
+        color: #64748b;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        transition: all 0.3s ease;
+        border-radius: 6px 6px 0 0;
+    }
+    
+    .tab-btn i {
+        font-size: 0.9rem;
+    }
+    
+    .tab-btn.active {
+        color: #6c63ff;
+    }
+    
+    .tab-btn.active .active-indicator {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: #6c63ff;
+        border-radius: 3px 3px 0 0;
+    }
+    
+    .notification-badge {
+        background-color: #ef4444;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.3rem;
+    }
+    
+    .tab-underline {
+        height: 1px;
+        width: 100%;
+        background-color: #e2e8f0;
+        position: absolute;
+        bottom: 0;
+        z-index: -1;
+    }
+    
+    /* Carte de mentor */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        margin-bottom: 2rem;
+    }
+    
+    .mentor-profile {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .mentor-avatar {
+        position: relative;
+        flex-shrink: 0;
+    }
+    
+    .mentor-avatar img {
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 3px solid white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .status-badge {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+    
+    .status-badge.online {
+        background-color: #10b981;
+    }
+    
+    .mentor-details {
+        flex: 1;
+        min-width: 250px;
+    }
+    
+    .mentor-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+    }
+    
+    .mentor-header h3 {
+        font-size: 1.4rem;
+        color: #1e293b;
+        margin: 0;
+    }
+    
+    .icon-btn {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .icon-btn.favorite {
+        color: #f43f5e;
+    }
+    
+    .title {
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .mentor-rating {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .stars {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: #f59e0b;
+    }
+    
+    .stars span {
+        color: #64748b;
+        font-size: 0.85rem;
+        margin-left: 0.5rem;
+    }
+    
+    .experience {
+        font-size: 0.85rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .bio {
+        color: #475569;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .mentor-expertise {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .expertise-tag {
+        background-color: #e0e7ff;
+        color: #4f46e5;
+        padding: 0.4rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .mentor-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn {
+        padding: 0.7rem 1.4rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn.outline {
+        background: transparent;
+        border: 1px solid #cbd5e1;
+        color: #64748b;
+    }
+    
+    .btn.outline:hover {
+        background: #f8fafc;
+        border-color: #94a3b8;
+    }
+    
+    .btn.primary {
+        background: linear-gradient(135deg, #6c63ff 0%, #4a3eff 100%);
+        color: white;
+        border: none;
+    }
+    
+    .btn.primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(108, 99, 255, 0.3);
+    }
+    
+    .btn.secondary {
+        background: #f1f5f9;
+        color: #475569;
+        border: none;
+    }
+    
+    .btn.secondary:hover {
+        background: #e2e8f0;
+    }
+    
+    .btn.icon-only {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        justify-content: center;
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 0;
+    }
+    
+    /* Section de session */
+    .upcoming-session {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title h4 {
+        font-size: 1.2rem;
+        color: #1e293b;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    
+    .view-all {
+        font-size: 0.85rem;
+        color: #6c63ff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .view-all:hover {
+        text-decoration: underline;
+    }
+    
+    .session-card {
+        display: flex;
+        gap: 1.5rem;
+        align-items: flex-start;
+    }
+    
+    .date-badge {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        border-radius: 8px;
+        padding: 0.8rem;
+        text-align: center;
+        min-width: 60px;
+    }
+    
+    .date-badge .day {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #16a34a;
+        display: block;
+        line-height: 1;
+    }
+    
+    .date-badge .month {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #22c55e;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .time-remaining {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        justify-content: center;
+    }
+    
+    .session-info {
+        flex: 1;
+    }
+    
+    .session-topic {
+        font-size: 1.1rem;
+        color: #1e293b;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .session-meta {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .session-meta span {
+        font-size: 0.85rem;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .session-description {
+        color: #475569;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .session-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .mentor-profile {
+            flex-direction: column;
+        }
+        
+        .session-card {
+            flex-direction: column;
+        }
+        
+        .tabs-container {
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+        }
+    }
+    </style>
+<body class="dashboard">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="assets/logo.png" alt="EduGuide Togo">
+                    <h1>Edu<span>Guide</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="assets/user-avatar.jpg" alt="Profil utilisateur" id="user-avatar">
+                <h3 id="username">Ariel</h3>
+                <p id="user-role">Étudiant</p>
+            </div>
+            
+            <div class="sidebar-nav-container">
+                <div class="sidebar-nav-wrapper">
+                    <!-- Première page de navigation -->
+                    <div class="sidebar-nav-page">
+                        <nav class="sidebar-nav">
+                            <ul>
+                                <li ><a href="dashboard.html"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                                <li><a href="profile.html"><i class="fas fa-user-edit"></i> Mon profil</a></li>
+                                <li><a href="tests.html"><i class="fas fa-question-circle"></i> Tests d'orientation</a></li>
+                                <li><a href="formations.html"><i class="fas fa-book"></i> Mes formations</a></li>
+                                <li><a href="certifications.html"><i class="fas fa-certificate"></i> Mes certifications</a></li>
+                                <li class="active"><a href="mentorat.html"><i class="fas fa-user-tie"></i> Mentorat</a></li>
+                                <li><a href="opportunites.html"><i class="fas fa-briefcase"></i> Opportunités</a></li>
+                                <li><a href="communaute.html"><i class="fas fa-users"></i> Communauté</a></li>
+                                <li><a href="portfolio.html"><i class="fas fa-file-alt"></i> Portfolio</a></li>
+                                <li><a href="parametres.html"><i class="fas fa-cog"></i> Paramètres</a></li>
+                            </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn secondary"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Rechercher...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                    <button class="message-btn">
+                        <i class="fas fa-envelope"></i>
+                        <span class="message-count">5</span>
+                    </button>
+                </div>
+            </header><br><br><br>
+            
+            <div class="dashboard-content">
+                <section class="mentorship-section">
+                    <!-- En-tête avec bouton stylisé -->
+                    <div class="section-header">
+                        <div class="header-content">
+                            <h2><i class="fas fa-user-tie"></i> Mentorat</h2>
+                            <p class="section-subtitle">Connectez-vous avec des experts pour guider votre parcours</p>
+                        </div>
+                        <button class="btn primary mentor-cta">
+                            <i class="fas fa-search"></i> Trouver un mentor
+                            <span class="hover-effect"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Onglets stylisés avec indicateur actif -->
+                    <div class="mentorship-tabs">
+                        <div class="tabs-container">
+                            <button class="tab-btn active">
+                                <i class="fas fa-chalkboard-teacher"></i> Mon mentor
+                                <span class="active-indicator"></span>
+                            </button>
+                            <button class="tab-btn">
+                                <i class="fas fa-comments"></i> Messages
+                                <span class="notification-badge">3</span>
+                            </button>
+                            <button class="tab-btn">
+                                <i class="fas fa-history"></i> Sessions passées
+                            </button>
+                            <button class="tab-btn">
+                                <i class="fas fa-book-open"></i> Ressources
+                            </button>
+                        </div>
+                        <div class="tab-underline"></div>
+                    </div>
+                    
+                    <!-- Carte de mentor principale avec effet de profondeur -->
+                    <div class="current-mentor glass-card">
+                        <div class="mentor-profile">
+                            <div class="mentor-avatar">
+                                <img src="assets/mentor2.jpg" alt="Mentor">
+                                <div class="status-badge online"></div>
+                            </div>
+                            <div class="mentor-details">
+                                <div class="mentor-header">
+                                    <h3>Dr. Ama Djidjolé</h3>
+                                    <button class="icon-btn favorite">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                </div>
+                                <p class="title">
+                                    <i class="fas fa-briefcase"></i> Directrice Informatique • Orange Togo
+                                </p>
+                                <div class="mentor-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span>4.7 (23 avis)</span>
+                                    </div>
+                                    <span class="experience">
+                                        <i class="fas fa-award"></i> 15 ans d'expérience
+                                    </span>
+                                </div>
+                                <p class="bio">
+                                    Spécialiste en transformation digitale avec une expertise en gestion de projets TI et développement d'équipes techniques. Passionnée par le mentorat des jeunes talents.
+                                </p>
+                                <div class="mentor-expertise">
+                                    <span class="expertise-tag">Leadership TI</span>
+                                    <span class="expertise-tag">Gestion de carrière</span>
+                                    <span class="expertise-tag">Entretiens techniques</span>
+                                </div>
+                            </div>
+                            <div class="mentor-actions">
+                                <button class="btn outline">
+                                    <i class="fas fa-envelope"></i> Message
+                                </button>
+                                <button class="btn">
+                                    <i class="fas fa-calendar-check"></i> Planifier
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Section de session avec carte moderne -->
+                        <div class="upcoming-session">
+                            <div class="section-title">
+                                <h4><i class="fas fa-calendar-day"></i> Prochaine session</h4>
+                                <a href="#" class="view-all">Voir toutes</a>
+                            </div>
+                            <div class="session-card">
+                                <div class="session-date">
+                                    <div class="date-badge">
+                                        <span class="day">15</span>
+                                        <span class="month">JUIN</span>
+                                    </div>
+                                    <div class="time-remaining">
+                                        <i class="fas fa-bell"></i> Dans 3 jours
+                                    </div>
+                                </div>
+                                <div class="session-info">
+                                    <h5 class="session-topic">Préparation aux entretiens techniques</h5>
+                                    <div class="session-meta">
+                                        <span class="time"><i class="fas fa-clock"></i> 14:00 - 15:30 (GMT)</span>
+                                        <span class="format"><i class="fas fa-video"></i> Visioconférence</span>
+                                    </div>
+                                    <p class="session-description">
+                                        Session pratique avec simulation d'entretien et feedback personnalisé sur vos réponses techniques.
+                                    </p>
+                                    <div class="session-actions">
+                                        <button class="btn primary">
+                                            <i class="fas fa-video"></i> Rejoindre
+                                        </button>
+                                        <button class="btn secondary">
+                                            <i class="fas fa-calendar-alt"></i> Reporter
+                                        </button>
+                                        <button class="btn icon-only">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script src="style.js"></script>
+    <script src="auth.js"></script>
+
+</body>
+</html>
