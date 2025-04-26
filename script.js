@@ -138,9 +138,9 @@ function loadDashboardData() {
 function updateProgressData() {
     // Simuler des données de progression
     const progressData = {
-        profileCompletion: 65,
-        testsCompleted: 30,
-        coursesCompleted: 15
+        profileCompletion: 55,
+        testsCompleted: 2,
+        coursesCompleted: 5
     };
     
     // Mettre à jour les cercles de progression
@@ -168,19 +168,19 @@ function loadRecommendedCourses() {
     // Simuler des données de cours
     const courses = [
         {
-            title: "Développement Web",
-            description: "Apprenez à créer des sites web modernes avec HTML, CSS et JavaScript.",
-            modules: 12,
-            duration: 30,
-            image: "assets/course1.jpg"
+            title: "Comptabilité Générale",
+            description: "Maîtrisez les bases de la comptabilité : bilans, journaux, comptes et écritures.",
+            modules: 10,
+            duration: 25,
+            image: "assets/compta1.jpg"
         },
         {
-            title: "Marketing Digital",
-            description: "Maîtrisez les fondamentaux du marketing en ligne et des réseaux sociaux.",
-            modules: 8,
-            duration: 20,
-            image: "assets/course2.jpg"
-        }
+            title: "Gestion Financière",
+            description: "Apprenez à gérer les budgets, analyser les coûts et piloter la performance financière.",
+            modules: 9,
+            duration: 22,
+            image: "assets/compta2.jpg"
+        }        
     ];
     
     const container = document.querySelector('.courses-grid');

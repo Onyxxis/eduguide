@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Introduction à la Comptabilité</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <div class="quiz-image" style="background-image: url('../assets/compta1.jpg');"></div>
+            <div class="quiz-info">
+                <h1>Introduction à la Comptabilité</h1>
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress" id="quiz-progress"></div>
+                    </div>
+                    <span id="progress-text">Question 1/10</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="quiz-content">
+            <form id="quiz-form">
+                <!-- Les questions seront injectées par JavaScript -->
+                <div id="questions-container"></div>
+
+                <div class="quiz-navigation">
+                    <button type="button" id="prev-btn" class="btn secondary" disabled>
+                        <i class="fas fa-arrow-left"></i> Précédent
+                    </button>
+                    <button type="button" id="next-btn" class="btn primary">
+                        Suivant <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" id="submit-btn" class="btn success" style="display: none;">
+                        Valider le quiz
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

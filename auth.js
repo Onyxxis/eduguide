@@ -9,12 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
+            const name = document.getElementById('login-name').value;
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
             // Validation simple
-            if (!email || !password) {
+            if (!name ||!email || !password) {
                 alert('Veuillez remplir tous les champs');
                 return;
             }
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Simuler une connexion réussie
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userEmail', email);
+            localStorage.setItem('userName', name);
             
             // Rediriger vers le tableau de bord
             window.location.href = 'dashboard.html';
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('userRole', role);
             
             // Rediriger vers le tableau de bord
-            window.location.href = 'dashboard.html';
+            window.location.href = 'orientation.html';
         });
     }
 
@@ -99,6 +101,6 @@ function displayUserInfo() {
     }
     
     if (userGreetingElement && userName) {
-        userGreetingElement.textContent = userName.split(' ')[0]; // Afficher seulement le prénom
+        userGreetingElement.textContent = userName.split(' ')[0]; 
     }
 }

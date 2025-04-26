@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module - Marketing Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modules.css">
+</head>
+<body>
+    <div class="module-container">
+        <!-- Sidebar avec liste des modules -->
+        <aside class="module-sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-book"></i> Marketing Digital</h3>
+                <button class="sidebar-toggle"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="module-nav">
+                <a href="#" class="module-link active" data-id="1">
+                    <span class="module-num">01</span>
+                    <span>Introduction au Marketing Digital</span>
+                </a>
+                <a href="#" class="module-link" data-id="2">
+                    <span class="module-num">02</span>
+                    <span>Stratégie de Contenu</span>
+                </a>
+                <!-- Ajoutez les 7 autres modules de la même manière -->
+                <!-- Module 3 à 9... -->
+            </div>
+            <div class="sidebar-progress">
+                <h4>Votre progression</h4>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 25%;"></div>
+                </div>
+                <span>2/9 modules complétés</span>
+            </div>
+        </aside>
+
+        <!-- Contenu principal du module -->
+        <main class="module-content">
+            <div class="module-header">
+                <button class="sidebar-toggle"><i class="fas fa-bars"></i> Modules</button>
+                <h2>Introduction au Marketing Digital</h2>
+                <div class="module-actions">
+                    <button class="btn secondary"><i class="fas fa-download"></i> Télécharger</button>
+                    <button class="btn primary">Marquer comme terminé</button>
+                </div>
+            </div>
+
+            <div class="module-viewer">
+                <!-- Contenu dynamique chargé en fonction du module -->
+                <div class="module-pdf-viewer">
+                    <iframe src="assets/module/module1.pdf"></iframe>
+                </div>
+                
+                <div class="module-navigation">
+                    <a href="#" class="btn secondary prev-module"><i class="fas fa-arrow-left"></i> Précédent</a>
+                    <a href="#" class="btn primary next-module">Suivant <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
