@@ -139,8 +139,8 @@ function updateProgressData() {
     // Simuler des données de progression
     const progressData = {
         profileCompletion: 55,
-        testsCompleted: 2,
-        coursesCompleted: 5
+        testsCompleted: 0,
+        coursesCompleted: 0
     };
     
     // Mettre à jour les cercles de progression

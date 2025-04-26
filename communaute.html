@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<!-- Style pour réduire la taille des images -->
+<style>
+    .community-avatar img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
 <style>
     .events-feed {
     background: white;
@@ -706,16 +715,14 @@
                 </div>
             </header><br><br><br>
             
-            <div class="dashboard-content">
+            <!-- <div class="dashboard-content">
                 <section class="community-section">
-                    <!-- Header avec animation au survol -->
                     <h2 class="section-title">
                         <i class="fas fa-users icon-gradient"></i> 
                         <span class="title-text">Communauté EduGuide</span>
                         <span class="title-badge">Nouveau</span>
                     </h2>
                     
-                    <!-- Statistiques avec effets au survol -->
                     <div class="community-stats">
                         <div class="stat-card hover-grow">
                             <div class="stat-icon">
@@ -757,9 +764,7 @@
                         </div>
                     </div>
                     
-                    <!-- Contenu principal avec deux colonnes -->
                     <div class="community-feeds">
-                        <!-- Colonne Discussions -->
                         <div class="discussion-feed">
                             <div class="feed-header">
                                 <h3>Dernières discussions</h3>
@@ -833,7 +838,6 @@
                             </div>
                         </div>
                         
-                        <!-- Colonne Événements -->
                         <div class="events-feed">
                             <div class="feed-header">
                                 <h3><i class="fas fa-calendar-alt icon-gradient"></i> Événements à venir</h3>
@@ -948,7 +952,128 @@
                         </div>
                     </div>
                 </section>
+            </div> -->
+
+            <div class="dashboard-content">
+                <section class="community-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-balance-scale icon-gradient"></i> 
+                        <span class="title-text">Communautés Comptables</span>
+                        <span class="title-badge">Nouveau</span>
+                    </h2>
+                    
+                    <div class="communities-list">
+                        <!-- Communauté 1 -->
+                        <div class="community-card hover-lift">
+                            <div class="community-avatar">
+                                <img src="assets/community1.jpg" alt="Experts-Comptables">
+                                <span class="members-count">980 membres</span>
+                            </div>
+                            <div class="community-content">
+                                <div class="community-header">
+                                    <h3>Experts-Comptables Togo</h3>
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user-plus"></i> Rejoindre
+                                    </button>
+                                </div>
+                                <p class="community-description">
+                                    Réseau professionnel pour les experts-comptables et auditeurs. Échanges sur normes comptables, fiscalité et missions d'audit.
+                                </p>
+                                <div class="community-meta">
+                                    <span class="meta-item">
+                                        <i class="fas fa-comments"></i> 305 discussions
+                                    </span>
+                                    <span class="meta-item">
+                                        <i class="fas fa-calendar-check"></i> 4 événements/mois
+                                    </span>
+                                </div>
+                                <div class="community-tags">
+                                    <span class="tag tag-finance">Comptabilité</span>
+                                    <span class="tag tag-legal">Audit</span>
+                                    <span class="tag tag-tax">Fiscalité</span>
+                                </div>
+                            </div>
+                        </div><br><br>
+                        
+                        <!-- Communauté 2 -->
+                        <div class="community-card hover-lift">
+                            <div class="community-avatar">
+                                <img src="assets/community2.jpg" alt="Étudiants Comptables">
+                                <span class="members-count">720 membres</span>
+                            </div>
+                            <div class="community-content">
+                                <div class="community-header">
+                                    <h3>Étudiants en Comptabilité</h3>
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user-plus"></i> Rejoindre
+                                    </button>
+                                </div>
+                                <p class="community-description">
+                                    Groupe de soutien pour les étudiants en comptabilité et finance. Aide aux examens, stages, et début de carrière.
+                                </p>
+                                <div class="community-meta">
+                                    <span class="meta-item">
+                                        <i class="fas fa-comments"></i> 210 discussions
+                                    </span>
+                                    <span class="meta-item">
+                                        <i class="fas fa-calendar-check"></i> 3 événements/mois
+                                    </span>
+                                </div>
+                                <div class="community-tags">
+                                    <span class="tag tag-education">Éducation</span>
+                                    <span class="tag tag-career">Carrière</span>
+                                    <span class="tag tag-certification">Certification</span>
+                                </div>
+                            </div>
+                        </div><br><br><br>
+                        
+                        
+                        <!-- Communauté 3 -->
+                        <div class="community-card hover-lift">
+                            <div class="community-avatar">
+                                <img src="assets/community3.jpg" alt="Fiscalistes">
+                                <span class="members-count">430 membres</span>
+                            </div>
+                            <div class="community-content">
+                                <div class="community-header">
+                                    <h3>Fiscalistes Afrique</h3>
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user-plus"></i> Rejoindre
+                                    </button>
+                                </div>
+                                <p class="community-description">
+                                    Communauté pour les spécialistes de la fiscalité africaine. Partage d’actualités fiscales, jurisprudence et bonnes pratiques.
+                                </p>
+                                <div class="community-meta">
+                                    <span class="meta-item">
+                                        <i class="fas fa-comments"></i> 145 discussions
+                                    </span>
+                                    <span class="meta-item">
+                                        <i class="fas fa-calendar-check"></i> 2 événements/mois
+                                    </span>
+                                </div>
+                                <div class="community-tags">
+                                    <span class="tag tag-legal">Fiscalité</span>
+                                    <span class="tag tag-business">Business</span>
+                                    <span class="tag tag-law">Droit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section-footer">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Créer une communauté
+                        </button>
+                        <button class="btn btn-text">
+                            <i class="fas fa-search"></i> Explorer plus de communautés
+                        </button>
+                    </div>
+                </section>
             </div>
+            
+            
+            
         </main>
     </div>
     <script src="auth.js"></script>
